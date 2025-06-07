@@ -1,0 +1,33 @@
+import matplotlib
+
+matplotlib.use('Agg')  
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+df = pd.read_csv("E:/Machine_learning_lab/housing.csv")
+
+#housing = fetch_california_housing(as_frame=True)
+
+
+
+print("Dataset Info:")
+print(df.info())
+print("\nFirst 5 rows:")
+print(df.head())
+
+corr_matrix = df.corr()
+print("\nCorrelation Matrix:")
+print(corr_matrix)
+
+
+plt.figure(figsize=(12, 8))
+sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', fmt=".2f")
+plt.title("Correlation Matrix of California Housing Features")
+plt.savefig("heatmap.tiff")  # Saves the plot to a file
+plt.close()
+
+g = sns.pairplot(df, diag_kind='kde')
+g.fig.suptitle("Pair Plot of California Housing Features", y=1.02)
+plt.savefig("pairplot.png")  # Saves the pair plot to a file
+plt.close()

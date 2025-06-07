@@ -1,0 +1,34 @@
+import matplotlib
+matplotlib.use('Agg')  
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+
+
+
+df = pd.read_csv(r"E:\Machine_learning_lab\housing.csv")
+
+
+df.hist(bins=30, figsize=(15, 10))
+plt.suptitle("Histograms of California Housing Features",y=1.02)
+
+plt.savefig("histograms.jpeg")  # Save the figure
+plt.close()
+
+
+for col in df.columns:
+    plt.figure(figsize=(6, 4))
+    sns.histplot(df[col], kde=True, bins=30)
+    plt.title(f'Histogram of {col}')
+    plt.xlabel(col)
+    plt.ylabel('Frequency')
+    plt.savefig(f"histogram_{col}.png")  
+    plt.close()
+
+plt.figure(figsize=(12, 8))
+sns.boxplot(data=df)
+plt.title("Boxplot of California Housing Features")
+plt.xlabel("Features")
+plt.ylabel("Value")
+plt.savefig("boxplot.jpeg")
+plt.close()
