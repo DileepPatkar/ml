@@ -1,0 +1,28 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+def lwr(x_train, y_train, x, tau):
+    w = np.exp(-((x_train - x)**2) / (2 * tau**2))
+    X = np.c_[np.ones_like(x_train), x_train]
+    W = np.diag(w)
+    beta = np.linalg.pinv(X.T @ W @ X) @ X.T @ W @ y_train
+    return beta @ [1, x]
+
+x = np.array([5, 1, 2, 1])
+y = np.array([25, 5, 7, 8])
+tau = 0.4
+x_test = np.linspace(min(x), max(x), 100)
+y_lwr = [lwr(x, y, xi, tau) for xi in x_test]
+
+# Standard Linear Regression
+X_std = np.c_[np.ones_like(x), x]
+beta_std = np.linalg.pinv(X_std.T @ X_std) @ X_std.T @ y
+y_std = X_std @ beta_std
+y_std_line = beta_std[0] + beta_std[1] * x_test
+
+plt.scatter(x, y, label='Data')
+plt.plot(x_test, y_lwr, 'r', label='LWR')
+plt.plot(x_test, y_std_line, 'g', label='Linear Reg.')
+plt.legend()
+plt.title('LWR vs Linear Regression')
+plt.show()
